@@ -23,6 +23,7 @@ public class InitializeDatabaseChangeLogLockTableGenerator extends AbstractSqlGe
     @Override
     public Sql[] generateSql(InitializeDatabaseChangeLogLockTableStatement statement, Database database, SqlGeneratorChain sqlGeneratorChain) {
         DeleteStatement deleteStatement = new DeleteStatement(database.getLiquibaseCatalogName(), database.getLiquibaseSchemaName(), database.getDatabaseChangeLogLockTableName());
+        deleteStatement.setWhere("1=1");
         InsertStatement insertStatement = new InsertStatement(database.getLiquibaseCatalogName(), database.getLiquibaseSchemaName(), database.getDatabaseChangeLogLockTableName())
                 .addColumnValue("ID", 1)
                 .addColumnValue("LOCKED", Boolean.FALSE);

@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.liquibase</groupId>
     <artifactId>liquibase-rpm</artifactId>
-    <version>3.5.3</version>
+    <version>3.5.3-EGOVA</version>
     <packaging>jar</packaging>
     <url>http://www.liquibase.org/</url>
 
     <name>Liquibase RPM Packager</name>
-    <description>Liquibase is an open source database-independent library for tracking, managing and applying database schema changes. It was started in 2006 to allow easier tracking of database changes, especially in an agile software development environment.</description>
+    <description>Liquibase is an open source database-independent library for tracking, managing and applying database
+        schema changes. It was started in 2006 to allow easier tracking of database changes, especially in an agile
+        software development environment.
+    </description>
     <organization>
         <name>Liquibase.org</name>
         <url>http://www.liquibase.org</url>
     </organization>
-    
+
     <licenses>
         <license>
             <url>http://www.apache.org/licenses/LICENSE-2.0</url>
             <name>Apache License, Version 2.0</name>
         </license>
     </licenses>
-    
+
     <properties>
         <!-- Liquibase core dependencies and required jars versions -->
         <snakeyaml.version>1.17</snakeyaml.version>
         <postgresql.version>9.3-1101-jdbc41</postgresql.version>
-        
+
         <!-- Liquibase SDK sdk/lib-sdk required libraries versions -->
         <snakeyaml.version>1.17</snakeyaml.version>
         <postgresql.version>9.3-1101-jdbc41</postgresql.version>
@@ -34,7 +38,7 @@
         <javax.servlet.version>3.0.0.v201112011016</javax.servlet.version>
         <junit.version>4.11</junit.version>
     </properties>
-    
+
     <developers>
         <developer>
             <email>Adrien.Sales@gmail.com</email>
@@ -65,13 +69,13 @@
             <version>${snakeyaml.version}</version>
             <optional>true</optional>
         </dependency>
-        
+
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
         </dependency>
-        
+
         <!-- Liquibase sdk dependencies -->
         <dependency>
             <groupId>commons-cli</groupId>
@@ -200,10 +204,10 @@
                                 </source>
                             </sources>
                         </mapping>
-                        
+
                         <mapping>
                             <directory>/opt/liquibase-${project.version}/lib</directory>
-                            
+
                             <dependency>
                                 <includes>
                                     <include>org.yaml:snakeyaml</include>
@@ -214,7 +218,7 @@
                                 </excludes>
                             </dependency>
                         </mapping>
-                        
+
                         <mapping>
                             <directory>/opt/liquibase-${project.version}/man</directory>
                             <configuration>true</configuration>
@@ -230,7 +234,7 @@
                                 </source>
                             </sources>
                         </mapping>
-                        
+
                         <mapping>
                             <directory>/opt/liquibase-${project.version}</directory>
                             <configuration>true</configuration>
@@ -277,7 +281,7 @@
                                 </softlinkSource>
                             </sources>
                         </mapping>
-                        
+
                         <!-- Liquibase sdk mappings -->
                         <mapping>
                             <directory>/opt/liquibase-${project.version}/sdk</directory>
@@ -291,7 +295,7 @@
                                 </source>
                             </sources>
                         </mapping>
-                        
+
                         <mapping>
                             <directory>/opt/liquibase-${project.version}/sdk/vagrant</directory>
                             <configuration>true</configuration>
@@ -316,11 +320,12 @@
                             <groupname>liquibase</groupname>
                             <sources>
                                 <source>
-                                    <location>${project.build.directory}/dist/sdk/vagrant/install-files/README.txt</location>
+                                    <location>${project.build.directory}/dist/sdk/vagrant/install-files/README.txt
+                                    </location>
                                 </source>
                             </sources>
                         </mapping>
-                        
+
                         <mapping>
                             <directory>/opt/liquibase-${project.version}/sdk/workspace</directory>
                             <configuration>true</configuration>
@@ -329,17 +334,20 @@
                             <groupname>liquibase</groupname>
                             <sources>
                                 <source>
-                                    <location>${project.build.directory}/dist/sdk/workspace/liquibase.derby.properties</location>
+                                    <location>${project.build.directory}/dist/sdk/workspace/liquibase.derby.properties
+                                    </location>
                                 </source>
                                 <source>
-                                    <location>${project.build.directory}/dist/sdk/workspace/liquibase.h2.properties</location>
+                                    <location>${project.build.directory}/dist/sdk/workspace/liquibase.h2.properties
+                                    </location>
                                 </source>
                                 <source>
-                                    <location>${project.build.directory}/dist/sdk/workspace/liquibase.hsql.properties</location>
+                                    <location>${project.build.directory}/dist/sdk/workspace/liquibase.hsql.properties
+                                    </location>
                                 </source>
                             </sources>
                         </mapping>
-                        
+
                         <mapping>
                             <directory>/opt/liquibase-${project.version}/sdk/workspace/changelog/com/example</directory>
                             <configuration>true</configuration>
@@ -348,43 +356,55 @@
                             <groupname>liquibase</groupname>
                             <sources>
                                 <source>
-                                    <location>${project.build.directory}/dist/sdk/workspace/changelog/com/example/changelog.xml</location>
-                                </source>
-                            </sources>
-                        </mapping>
-                        
-                        <mapping>
-                            <directory>/opt/liquibase-${project.version}/sdk/workspace/changelog/com/example/features</directory>
-                            <configuration>true</configuration>
-                            <filemode>555</filemode>
-                            <username>liquibase</username>
-                            <groupname>liquibase</groupname>
-                            <sources>
-                                <source>
-                                    <location>${project.build.directory}/dist/sdk/workspace/changelog/com/example/features/employees.xml</location>
-                                </source>
-                                <source>
-                                    <location>${project.build.directory}/dist/sdk/workspace/changelog/com/example/features/store.sql</location>
+                                    <location>
+                                        ${project.build.directory}/dist/sdk/workspace/changelog/com/example/changelog.xml
+                                    </location>
                                 </source>
                             </sources>
                         </mapping>
 
                         <mapping>
-                            <directory>/opt/liquibase-${project.version}/sdk/workspace/changelog/com/example/versions</directory>
+                            <directory>/opt/liquibase-${project.version}/sdk/workspace/changelog/com/example/features
+                            </directory>
                             <configuration>true</configuration>
                             <filemode>555</filemode>
                             <username>liquibase</username>
                             <groupname>liquibase</groupname>
                             <sources>
                                 <source>
-                                    <location>${project.build.directory}/dist/sdk/workspace/changelog/com/example/versions/v1.yaml</location>
+                                    <location>
+                                        ${project.build.directory}/dist/sdk/workspace/changelog/com/example/features/employees.xml
+                                    </location>
                                 </source>
                                 <source>
-                                    <location>${project.build.directory}/dist/sdk/workspace/changelog/com/example/versions/v2.yaml</location>
+                                    <location>
+                                        ${project.build.directory}/dist/sdk/workspace/changelog/com/example/features/store.sql
+                                    </location>
                                 </source>
                             </sources>
                         </mapping>
-                        
+
+                        <mapping>
+                            <directory>/opt/liquibase-${project.version}/sdk/workspace/changelog/com/example/versions
+                            </directory>
+                            <configuration>true</configuration>
+                            <filemode>555</filemode>
+                            <username>liquibase</username>
+                            <groupname>liquibase</groupname>
+                            <sources>
+                                <source>
+                                    <location>
+                                        ${project.build.directory}/dist/sdk/workspace/changelog/com/example/versions/v1.yaml
+                                    </location>
+                                </source>
+                                <source>
+                                    <location>
+                                        ${project.build.directory}/dist/sdk/workspace/changelog/com/example/versions/v2.yaml
+                                    </location>
+                                </source>
+                            </sources>
+                        </mapping>
+
                         <!-- Put jars required by liquibase-sdk -->
                         <mapping>
                             <directory>/opt/liquibase-${project.version}/sdk/lib-sdk</directory>
@@ -399,7 +419,7 @@
                                 </excludes>
                             </dependency>
                         </mapping>
-    
+
                         <!-- Add symbolic link -->
                         <mapping>
                             <directory>/usr/bin</directory>
@@ -411,14 +431,14 @@
                             </sources>
                         </mapping>
                     </mappings>
-                    
+
                     <preinstallScriptlet>
                         <script>echo "Installing liquibase ..."</script>
                     </preinstallScriptlet>
                     <postinstallScriptlet>
                         <script>/opt/liquibase-${project.version}/man/install-man.sh</script>
                     </postinstallScriptlet>
-                    
+
                     <postremoveScriptlet>
                         <script>rm -rf /usr/man/man1/liquibase.1.gz /opt/liquibase-${project.version}</script>
                     </postremoveScriptlet>
@@ -426,7 +446,7 @@
             </plugin>
         </plugins>
     </build>
-    
+
     <reporting>
         <plugins>
             <plugin>
@@ -434,13 +454,13 @@
                 <artifactId>taglist-maven-plugin</artifactId>
                 <version>2.4</version>
             </plugin>
-      
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
                 <version>2.7</version>
             </plugin>
-      
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-changes-plugin</artifactId>

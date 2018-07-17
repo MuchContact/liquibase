@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -10,12 +11,12 @@
     <parent>
         <groupId>org.liquibase</groupId>
         <artifactId>liquibase-parent</artifactId>
-        <version>3.5.3</version>
+        <version>3.5.3-EGOVA</version>
     </parent>
 
     <properties>
         <bundle.namespace>liquibase.*</bundle.namespace>
-        <project.version>3.5.3</project.version>
+        <project.version>3.5.3-EGOVA</project.version>
     </properties>
 
     <dependencies>
@@ -48,7 +49,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
-                <scope>test</scope>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.ant</groupId>
@@ -195,9 +196,9 @@
                     <execution>
                         <id>bundle-manifest</id>
                         <phase>process-classes</phase>
-                        <goals>    
+                        <goals>
                             <goal>manifest</goal>
-                        </goals>   
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -249,7 +250,7 @@
                 <artifactId>gmaven-plugin</artifactId>
                 <configuration>
                     <providerSelection>2.0</providerSelection>
-                    <source />
+                    <source/>
                 </configuration>
                 <executions>
                     <execution>
@@ -348,7 +349,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
