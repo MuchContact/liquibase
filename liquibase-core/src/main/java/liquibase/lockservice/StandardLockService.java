@@ -97,8 +97,8 @@ public class StandardLockService implements LockService {
             } catch (DatabaseException e) {
                 if (e.getMessage() != null && e.getMessage().contains("exists")) {
                     //hit a race condition where the table got created by another node.
-                    LogFactory.getLogger().debug("Database lock table already appears to exist, due to exception: " + e.getMessage()+". Continuing on");
-                }  else {
+                    LogFactory.getLogger().debug("Database lock table already appears to exist, due to exception: " + e.getMessage() + ". Continuing on");
+                } else {
                     throw e;
                 }
             }
@@ -164,30 +164,20 @@ public class StandardLockService implements LockService {
     @Override
     public void waitForLock() throws LockException {
 
-        boolean locked = false;
-        long timeToGiveUp = new Date().getTime() + (getChangeLogLockWaitTime() * 1000 * 60);
-        while (!locked && new Date().getTime() < timeToGiveUp) {
-            locked = acquireLock();
-            if (!locked) {
-                LogFactory.getLogger().info("Waiting for changelog lock....");
-                try {
-                    Thread.sleep(getChangeLogLockRecheckTime() * 1000);
-                } catch (InterruptedException e) {
-                    ;
-                }
-            }
-        }
+        boolean locked = acquireLock();
 
         if (!locked) {
             DatabaseChangeLogLock[] locks = listLocks();
             String lockedBy;
+            String lockedDesc = "";
             if (locks.length > 0) {
                 DatabaseChangeLogLock lock = locks[0];
-                lockedBy = lock.getLockedBy() + " since " + DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(lock.getLockGranted());
+                lockedBy = lock.getLockedBy();
+                lockedDesc = " since " + DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(lock.getLockGranted());
             } else {
                 lockedBy = "UNKNOWN";
             }
-            throw new LockException("Could not acquire change log lock.  Currently locked by " + lockedBy);
+            throw new LockException(String.format("Could not acquire change log lock.  Currently locked by %s%s. Please try again later after %s releases this lock", lockedBy, lockedDesc, lockedBy));
         }
     }
 
@@ -218,15 +208,14 @@ public class StandardLockService implements LockService {
                     database.rollback();
                     Sql[] sql = SqlGeneratorFactory.getInstance().generateSql(new LockDatabaseChangeLogStatement(), database);
                     if (sql.length != 1) {
-                        throw new UnexpectedLiquibaseException("Did not expect "+sql.length+" statements");
+                        throw new UnexpectedLiquibaseException("Did not expect " + sql.length + " statements");
                     }
-                    rowsUpdated = executor.update(new RawSqlStatement("EXEC sp_executesql N'SET NOCOUNT OFF "+sql[0].toSql().replace("'", "''")+"'"));
+                    rowsUpdated = executor.update(new RawSqlStatement("EXEC sp_executesql N'SET NOCOUNT OFF " + sql[0].toSql().replace("'", "''") + "'"));
                 }
                 if (rowsUpdated > 1) {
                     throw new LockException("Did not update change log lock correctly");
                 }
-                if (rowsUpdated == 0)
-                {
+                if (rowsUpdated == 0) {
                     // another node was faster
                     return false;
                 }
@@ -270,12 +259,12 @@ public class StandardLockService implements LockService {
                     database.rollback();
                     Sql[] sql = SqlGeneratorFactory.getInstance().generateSql(new UnlockDatabaseChangeLogStatement(), database);
                     if (sql.length != 1) {
-                        throw new UnexpectedLiquibaseException("Did not expect "+sql.length+" statements");
+                        throw new UnexpectedLiquibaseException("Did not expect " + sql.length + " statements");
                     }
-                    updatedRows = executor.update(new RawSqlStatement("EXEC sp_executesql N'SET NOCOUNT OFF "+sql[0].toSql().replace("'", "''")+"'"));
+                    updatedRows = executor.update(new RawSqlStatement("EXEC sp_executesql N'SET NOCOUNT OFF " + sql[0].toSql().replace("'", "''") + "'"));
                 }
                 if (updatedRows != 1) {
-                    throw new LockException("Did not update change log lock correctly.\n\n" + updatedRows + " rows were updated instead of the expected 1 row using executor " + executor.getClass().getName()+" there are "+executor.queryForInt(new RawSqlStatement("select count(*) from "+database.getDatabaseChangeLogLockTableName()))+" rows in the table");
+                    throw new LockException("Did not update change log lock correctly.\n\n" + updatedRows + " rows were updated instead of the expected 1 row using executor " + executor.getClass().getName() + " there are " + executor.queryForInt(new RawSqlStatement("select count(*) from " + database.getDatabaseChangeLogLockTableName())) + " rows in the table");
                 }
                 database.commit();
             }
